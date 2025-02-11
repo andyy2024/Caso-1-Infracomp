@@ -12,12 +12,14 @@ public class BuzonDeRevision {
     }
 
     public synchronized void almacenarProducto(Producto producto) {
-        while (productosAlmacenados.size() == limiteDeAlmacenamiento)
+        while (productosAlmacenados.size() == limiteDeAlmacenamiento){
             try {
                 //espera pasiva
                 wait();
             } catch (InterruptedException e) {e.printStackTrace();}
+        }
 
+        //en este caso, hay capacidad para almacenar
         productosAlmacenados.add(producto);
         notify(); 
         // solo puede entrar uno al tiempo

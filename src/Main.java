@@ -23,6 +23,9 @@ public class Main {
 
         for ( int i = 0; i < trabajadores; i++){
             productores[i].start();
+        }
+
+        for ( int i = 0; i < trabajadores; i++){
             equipoDeCalidad[i].start();
         }
 
@@ -34,5 +37,7 @@ public class Main {
         //         e.printStackTrace();
         //     }
         // }
+        
     }
+    
 }

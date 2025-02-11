@@ -28,7 +28,7 @@ public class Inspector extends Thread {
         Producto producto;
         Random rand = new Random();
         while(true){
-
+            System.out.println("entre");
             producto = buzonDeRevision.buscarProductoParaInspeccionar();
             
             while (producto == null){
@@ -58,10 +58,12 @@ public class Inspector extends Thread {
                     producto = new Producto("FIN");
                     buzonDeReproceso.reprocesarProducto(producto);
                     System.out.println("Inspector " + id + " a enviado producto " + producto.getid());
+                    
                     break;
                 }
             }
         }
     System.out.println("Inspector " + id + " a finalizado su trabajo");
+    
     }
 }

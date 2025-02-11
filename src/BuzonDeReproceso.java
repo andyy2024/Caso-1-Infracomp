@@ -10,9 +10,18 @@ public class BuzonDeReproceso {
 
     public synchronized void reprocesarProducto(Producto producto){
         reprocesos.add(producto);
+        for (Producto productso : reprocesos) {
+            System.out.println("a");
+            System.out.println(productso.getid());
+        }
+        
     }
 
     public synchronized Producto buscarProductoParaReprocesar(){
+        for (Producto producto : reprocesos) {
+            System.out.println("a");
+            System.out.println(producto.getid());
+        }
         if (reprocesos.size() == 0) {
             return null;
         }
