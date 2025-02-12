@@ -9,6 +9,7 @@ public class Inspector extends Thread {
     private double limiteDeFallos;
     private int fallos;
     private int id;
+    private boolean FIN = false;
 
     public Inspector(BuzonDeReproceso buzonDeReproceso, 
                      BuzonDeRevision buzonDeRevision,
@@ -19,49 +20,67 @@ public class Inspector extends Thread {
         this.buzonDeRevision = buzonDeRevision;
         this.deposito = deposito;
         this.metaDeProductos = metaDeProductos;
-        this.limiteDeFallos = metaDeProductos*0.1;
+        this.limiteDeFallos = metaDeProductos * 0.1;
         this.id = id;
     }
 
     @Override
     public void run() {
+
         Producto producto;
         Random rand = new Random();
-        while(true){
+        fallos = 0;
 
+        terminar : while (true) {
+
+            Print.imprimir(new String[]{"Inspector-" + id, " buscando productos para"," inspeccionar..."},
+                           new String[]{Print.FONDO_ROSADO,Print.BLANCO, Print.ROSADO});
             producto = buzonDeRevision.buscarProductoParaInspeccionar();
-            
-            while (producto == null){
-                // si el buzon no quiso darle un producto
-                // lo vuelve a intentar despues de yield()
-                // para simular una espera semi-activa
+
+            if (producto == null) {
+                
+
+            } else {
+            }
+
+            while (producto == null) {
+                Print.imprimir(new String[]{"Inspector-" + id, " no recibio"," producto"},
+                               new String[]{Print.FONDO_ROSADO, Print.ROJO_CLARO, Print.BLANCO});
+                if (buzonDeRevision.vacio() && FIN) {break terminar;}
+
                 Thread.yield();
                 producto = buzonDeRevision.buscarProductoParaInspeccionar();
             }
 
-            // if (producto.getid() == "FIN"){
-            //     break;
-            // }
-
-            System.out.println("Inspector " + id + " a recibido producto " + producto.getid());
+            Print.imprimir(new String[]{"Inspector-" + id, " ah"," recibido", " el producto ", producto.getid()},
+                               new String[]{Print.FONDO_ROSADO, Print.BLANCO, Print.VERDE_CLARO, Print.BLANCO, Print.AMARILLO_CLARO});
 
             int ruleta = rand.nextInt(100) + 1;
             Boolean rechazar = ruleta % 7 == 0;
-            if (rechazar && fallos <= limiteDeFallos){
+            if (rechazar && fallos <= limiteDeFallos) {
                 buzonDeReproceso.reprocesarProducto(producto);
                 fallos++;
-                System.out.println("Inspector " + id + " a rechazado producto " + producto.getid());
+                Print.imprimir(new String[]{"Inspector-" + id, " ha ", "rechazado", " producto ", producto.getid()},
+                               new String[]{Print.FONDO_ROSADO, Print.BLANCO, Print.ROJO_CLARO, Print.BLANCO, Print.AMARILLO_CLARO});
+
             } else {
                 deposito.almacenanar(producto);
-                System.out.println("Inspector " + id + " a aprobado producto " + producto.getid());
-                if (deposito.getInventarioActual() >= metaDeProductos ){
+                Print.imprimir(new String[]{"Inspector-" + id, " ha"," aprobado"," producto ", producto.getid()},
+                               new String[]{Print.FONDO_ROSADO, Print.BLANCO, Print.VERDE_CLARO, Print.BLANCO, Print.AMARILLO_CLARO});
+                if (deposito.getInventarioActual() >= metaDeProductos) {
+                    FIN = true;
                     producto = new Producto("FIN");
                     buzonDeReproceso.reprocesarProducto(producto);
-                    System.out.println("Inspector " + id + " a enviado producto " + producto.getid());
-                    break;
+                    Print.imprimir(new String[]{"Inspector-" + id, " ha"," enviado"," producto ", producto.getid()},
+                                   new String[]{Print.FONDO_ROSADO, Print.BLANCO,Print.VERDE_CLARO,Print.BLANCO, Print.AMARILLO_CLARO});
+
+                    if (buzonDeRevision.vacio()) {
+                        break;
+                    }
                 }
             }
         }
-    System.out.println("Inspector " + id + " a finalizado su trabajo");
+        Print.imprimir(new String[]{"Inspector-" + id, " ha", " finalizado", " su trabajo"},
+                       new String[]{Print.FONDO_ROSADO, Print.BLANCO, Print.ROJO_CLARO, Print.BLANCO});
     }
 }

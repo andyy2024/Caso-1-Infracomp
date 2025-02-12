@@ -1,9 +1,9 @@
 public class Main {
     
     public static void main(String[] args) {
-        int trabajadores = 1;
-        int metaDeProductos = 1;
-        int limiteBuzon = 3;
+        int trabajadores =10;
+        int metaDeProductos = 20;
+        int limiteBuzon = 5;
         
         BuzonDeReproceso buzonDeReproceso = new BuzonDeReproceso();
         BuzonDeRevision buzonDeRevision = new BuzonDeRevision(
@@ -25,14 +25,5 @@ public class Main {
             productores[i].start();
             equipoDeCalidad[i].start();
         }
-
-        // for ( int i = 0; i < trabajadores; i++){
-        //     try {
-        //         productores[i].join();
-        //         equipoDeCalidad[i].join();
-        //     } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
     }
 }
