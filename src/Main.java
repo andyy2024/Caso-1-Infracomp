@@ -2,7 +2,7 @@ public class Main {
     
     public static void main(String[] args) {
         int trabajadores =10;
-        int metaDeProductos = 20;
+        int metaDeProductos = 100;
         int limiteBuzon = 5;
         
         BuzonDeReproceso buzonDeReproceso = new BuzonDeReproceso();

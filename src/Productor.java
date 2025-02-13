@@ -24,35 +24,40 @@ public class Productor extends Thread {
         while(true){
             
             //chekar si hay reprocesos
-            Print.imprimir(new String[]{"Productor-" + id, " buscando productos para ", "reprocesar..."},
+            Print.imprimir(
+               new String[]{"Productor-" + id, " buscando productos para ", "reprocesar..."},
                new String[]{Print.FONDO_MAGENTA_CLARO, Print.BLANCO, Print.MORADO_LINDO}); 
+
             producto = buzonDeReproceso.buscarProductoParaReprocesar();
 
             //SI hubo un reproceso
             if(producto != null){
 
-            if (producto.getid().equals("FIN")){
-            Print.imprimir(new String[]{"Productor-" + id, " ha", " finalizado ","su trabajo"},
-               new String[]{Print.FONDO_MAGENTA_CLARO,Print.BLANCO, Print.ROJO_CLARO, Print.BLANCO});
-            break;
-            }
+               if (producto.getid().equals("FIN")){break;}
 
-            // vuelve a mandar el producto
-            buzonDeRevision.almacenarProducto(producto);
-            Print.imprimir(new String[]{"Productor-" + id, " ha", " reenviado ","producto ", producto.getid()},
-               new String[]{Print.FONDO_MAGENTA_CLARO, Print.BLANCO, Print.MAGENTA_CLARO,Print.BLANCO, Print.AMARILLO_CLARO});
-            continue;
+               // vuelve a mandar el producto
+               buzonDeRevision.almacenarProducto(producto);
+               Print.imprimir(
+                  new String[]{"Productor-" + id, " ha", " reenviado ","producto ", producto.getid()},
+                  new String[]{Print.FONDO_MAGENTA_CLARO, Print.BLANCO, Print.MAGENTA_CLARO,Print.BLANCO, Print.AMARILLO_CLARO});
+               continue;
             } 
             // genera un producto nuevo y lo almacena 
-            producto = new Producto("p" + id + "-" + i);
-            i++;
+            producto = new Producto("p" + id + "-" + i);i++;
+
             Print.imprimir(new String[]{"Productor-" + id, " ha"," creado"," el producto ", producto.getid()},
                new String[]{Print.FONDO_MAGENTA_CLARO, Print.BLANCO, Print.VERDE_CLARO, Print.BLANCO,Print.AMARILLO_CLARO});
+
             buzonDeRevision.almacenarProducto(producto);
+            
             Print.imprimir(new String[]{"Productor-" + id," ha", " enviado"," producto ", producto.getid()},
                new String[]{Print.FONDO_MAGENTA_CLARO, Print.BLANCO, Print.MAGENTA_CLARO, Print.BLANCO, Print.AMARILLO_CLARO});
         }
         
+        Print.imprimir(
+                     new String[]{"Productor-" + id, " ha", " finalizado ","su trabajo"},
+                     new String[]{Print.FONDO_MAGENTA_CLARO,Print.BLANCO, Print.ROJO_CLARO, Print.BLANCO});
+
     }
 
 }

@@ -37,17 +37,16 @@ public class Inspector extends Thread {
                            new String[]{Print.FONDO_ROSADO,Print.BLANCO, Print.ROSADO});
             producto = buzonDeRevision.buscarProductoParaInspeccionar();
 
-            if (producto == null) {
-                
-
-            } else {
-            }
-
+            boolean imprimir = true;
             while (producto == null) {
-                Print.imprimir(new String[]{"Inspector-" + id, " no recibio"," producto"},
-                               new String[]{Print.FONDO_ROSADO, Print.ROJO_CLARO, Print.BLANCO});
+                if (imprimir) {
+                    Print.imprimir(
+                        new String[]{"Inspector-" + id, " no recibio"," producto"},
+                        new String[]{Print.FONDO_ROSADO, Print.ROJO_CLARO, Print.BLANCO});
+                    imprimir = false;
+                }
+                
                 if (buzonDeRevision.vacio() && FIN) {break terminar;}
-
                 Thread.yield();
                 producto = buzonDeRevision.buscarProductoParaInspeccionar();
             }
@@ -57,7 +56,7 @@ public class Inspector extends Thread {
 
             int ruleta = rand.nextInt(100) + 1;
             Boolean rechazar = ruleta % 7 == 0;
-            if (rechazar && fallos <= limiteDeFallos) {
+            if (!FIN && rechazar && fallos <= limiteDeFallos) {
                 buzonDeReproceso.reprocesarProducto(producto);
                 fallos++;
                 Print.imprimir(new String[]{"Inspector-" + id, " ha ", "rechazado", " producto ", producto.getid()},
@@ -67,16 +66,13 @@ public class Inspector extends Thread {
                 deposito.almacenanar(producto);
                 Print.imprimir(new String[]{"Inspector-" + id, " ha"," aprobado"," producto ", producto.getid()},
                                new String[]{Print.FONDO_ROSADO, Print.BLANCO, Print.VERDE_CLARO, Print.BLANCO, Print.AMARILLO_CLARO});
-                if (deposito.getInventarioActual() >= metaDeProductos) {
+                if (deposito.getInventarioActual() >= metaDeProductos && !FIN) {
                     FIN = true;
                     producto = new Producto("FIN");
                     buzonDeReproceso.reprocesarProducto(producto);
                     Print.imprimir(new String[]{"Inspector-" + id, " ha"," enviado"," producto ", producto.getid()},
                                    new String[]{Print.FONDO_ROSADO, Print.BLANCO,Print.VERDE_CLARO,Print.BLANCO, Print.AMARILLO_CLARO});
-
-                    if (buzonDeRevision.vacio()) {
-                        break;
-                    }
+                    if (buzonDeRevision.vacio()) {break;}
                 }
             }
         }
