@@ -51,7 +51,7 @@ public class Inspector extends Thread {
                 producto = buzonDeRevision.buscarProductoParaInspeccionar();
             }
 
-            Print.imprimir(new String[]{"Inspector-" + id, " ah"," recibido", " el producto ", producto.getid()},
+            Print.imprimir(new String[]{"Inspector-" + id, " ha"," recibido", " el producto ", producto.getid()},
                                new String[]{Print.FONDO_ROSADO, Print.BLANCO, Print.VERDE_CLARO, Print.BLANCO, Print.AMARILLO_CLARO});
 
             int ruleta = rand.nextInt(100) + 1;
