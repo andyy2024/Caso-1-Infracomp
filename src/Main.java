@@ -2,7 +2,7 @@ public class Main {
     
     public static void main(String[] args) {
 
-        boolean enterValuesByConsole = false;
+        boolean enterValuesByConsole = true;
 
         int trabajadores = 2;
         int metaDeProductos = 20;
