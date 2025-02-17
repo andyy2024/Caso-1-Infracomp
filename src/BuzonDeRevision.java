@@ -5,13 +5,11 @@ public class BuzonDeRevision {
     //buffer
     private int limiteDeAlmacenamiento;
     private ArrayList<Producto> productosAlmacenados;
-    private boolean disponibilidad = true;
 
     public BuzonDeRevision(int limiteDeAlmacenamiento) {
         this.limiteDeAlmacenamiento = limiteDeAlmacenamiento;
         productosAlmacenados = new ArrayList<>();
     }
-
 
     public synchronized Producto buscarProductoParaInspeccionar(){
 

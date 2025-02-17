@@ -45,8 +45,9 @@ public class Inspector extends Thread {
                         new String[]{Print.FONDO_ROSADO, Print.ROJO_CLARO, Print.BLANCO});
                     imprimir = false;
                 }
-                
                 if (buzonDeRevision.vacio() && FIN) {break terminar;}
+                // si el buzon no quizo darle un producto, vuelve a intentarlo
+                // despues de hacer yield()
                 Thread.yield();
                 producto = buzonDeRevision.buscarProductoParaInspeccionar();
             }

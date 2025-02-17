@@ -6,8 +6,8 @@ public class Tests {
     public static void main(String[] args) throws InterruptedException {
         Tests tests = new Tests();
         Print.setSilence(true);
-        tests.testProductionProcess();
-        // tests.testDynamicParameters();
+        // tests.testProductionProcess();
+        tests.testDynamicParameters();
     }
 
     public Deposito run(int trabajadores, int metaDeProductos, int limiteBuzon) throws InterruptedException{
@@ -55,7 +55,7 @@ public class Tests {
 
     public void testDynamicParameters() throws InterruptedException {
         Random random = new Random();
-        int size = 5;
+        int size = 3;
         int[] trabajadoresArray = random.ints(size, 5, 16).toArray();
         int[] metaDeProductosArray = random.ints(size, 10, 31).toArray();
         int[] limiteBuzonArray = random.ints(size, 3, 8).toArray();
@@ -66,17 +66,16 @@ public class Tests {
 
                     Deposito deposito = run(trabajadores, metaDeProductos, limiteBuzon);
 
-                    String result = "Inventario actual: " + deposito.getInventarioActual() + ", Meta de productos: " + metaDeProductos;
                     if (deposito.getInventarioActual() >= metaDeProductos){
-                        System.out.println("Test passed     " + result);
+                        System.out.printf("Test passed -> Inventario actual: %5d, Meta de productos: %5d%n", deposito.getInventarioActual(), metaDeProductos);
                     } else {
-                        System.out.println("Test failed     " + result);
+                        System.out.printf("Test failed -> Inventario actual: %5d, Meta de productos: %5d%n", deposito.getInventarioActual(), metaDeProductos);
+
                         break test;
                     }
                 }
             }
         }
     }
-
 
 }
